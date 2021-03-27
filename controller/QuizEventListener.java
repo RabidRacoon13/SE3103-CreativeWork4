@@ -56,20 +56,27 @@ public class QuizEventListener implements ActionListener{
 		}
 		
 		if(e.getSource() == panel.getEnterButton()){
-			String answer = panel.getAnswerTextField().getText().toString().toUpperCase().trim();
-			Word word = WordBank.QUIZ_WORDS.get(panel.getCanvas().getWordIndex());
-			if(word.getWord().equals(answer)){
-				JOptionPane.showMessageDialog(panel.getWindow(), "Correct!");
-				panel.getCanvas().incrementWordIndex();
-				panel.getCanvas().setImageIndex(0);
-				panel.getCanvas().setLetterIndex(0);
-				if(panel.getCanvas().getWordIndex() > WordBank.QUIZ_WORDS.size() - 1){
-					panel.getCanvas().setWordIndex(0);
+			if( panel.getAnswerTextField().getText().toString().length() > 0) {
+				String answer = panel.getAnswerTextField().getText().toString().toUpperCase().trim();
+				Word word = WordBank.QUIZ_WORDS.get(panel.getCanvas().getWordIndex());
+				if(word.getWord().equals(answer)){
+					JOptionPane.showMessageDialog(panel.getWindow(), "Correct!");
+					panel.getCanvas().incrementWordIndex();
+					panel.getCanvas().setImageIndex(0);
+					panel.getCanvas().setLetterIndex(0);
+					if(panel.getCanvas().getWordIndex() > WordBank.QUIZ_WORDS.size() - 1){
+						panel.getCanvas().setWordIndex(0);
+					}
+					panel.getAnswerTextField().setText("");
+				} else {
+					JOptionPane.showMessageDialog(panel.getWindow(), "Sorry, that is Incorrect.");
+					panel.getAnswerTextField().setText("");
 				}
-				panel.getAnswerTextField().setText("");
-			} else {
-				JOptionPane.showMessageDialog(panel.getWindow(), "Sorry, that is Incorrect.");
 			}
+			else{
+				return;
+			}
+			
 			panel.getCanvas().repaint();
 		}
 		
